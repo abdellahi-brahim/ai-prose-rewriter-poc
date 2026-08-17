@@ -39,4 +39,27 @@ Suggested success gates for the first real dataset:
 
 - `notebooks/train_and_evaluate.ipynb`: self-contained Colab workflow
 - `data/example_pairs.csv`: smoke-test data, not a meaningful training corpus
+- `src/prepare_arb_dataset.py`: builds filtered rewrite and identity splits from ARB
 - `requirements.txt`: pinned dependency ranges
+
+## Prepare the ARB dataset
+
+Run this in Colab or in a local checkout:
+
+```bash
+pip install -r requirements.txt
+python -m src.prepare_arb_dataset --output-dir data/processed/arb
+```
+
+The script downloads `giper45/ARB-Dataset`, maps each H2L rewrite from `text` back to its human original in `source_text`, and rejects pairs with changed numbers, changed URLs, suspicious length differences, or low semantic similarity. It uses every accepted rewrite by default and draws identity examples from separate source groups at 20% of the rewrite count.
+
+To request fixed sample sizes instead:
+
+```bash
+python -m src.prepare_arb_dataset \
+  --output-dir data/processed/arb \
+  --rewrite-count 2000 \
+  --identity-count 400
+```
+
+The output directory contains train, validation, and test CSVs, separate rewrite and identity test sets, rejected rows with reasons, a 200-row manual review sheet, and `dataset_report.json`. Review the sample before training. ARB is marked Apache 2.0, and each exported row keeps its upstream source label for lineage checks.
