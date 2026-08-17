@@ -7,10 +7,10 @@ The project does **not** optimize against AI detectors. Its primary gates are hu
 ## Run in Google Colab
 
 1. Open `notebooks/train_and_evaluate.ipynb` in Colab and select a GPU runtime.
-2. Upload a UTF-8 CSV named `pairs.csv`. You can use `data/example_pairs.csv` for a smoke test.
-3. Run all cells. The notebook trains `google/flan-t5-small`, evaluates the untouched-input baseline and fine-tuned model, and saves the model plus predictions in `artifacts/`.
+2. Upload the `arb_dataset.zip` produced by the preparation script.
+3. Run all cells. The notebook trains `google/flan-t5-small`, evaluates rewrite and identity examples separately, and saves the model plus predictions in `artifacts/`.
 
-The CSV schema is:
+The preparation script produces CSVs with this core schema:
 
 | column | required | meaning |
 |---|---:|---|
